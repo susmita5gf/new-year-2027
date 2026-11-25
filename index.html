@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>স্বাগতম ২০২৭</title>
+    <meta name="theme-color" content="#09091c">
+    <title>New Year 2027</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&family=Poppins:wght@600;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Manrope:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <canvas id="bg"></canvas>
+    <canvas id="sky" aria-hidden="true"></canvas>
 
-    <main class="wrap">
-        <div class="ring"></div>
+    <div class="orb orb-one" aria-hidden="true"></div>
+    <div class="orb orb-two" aria-hidden="true"></div>
 
-        <p class="bidai">বিদায় 2026</p>
+    <main class="hero">
+        <p class="eyebrow"><span></span> Farewell 2026 <span></span></p>
 
-        <h1 class="year">
-            <span>2</span><span>0</span><span>2</span><span>7</span>
-        </h1>
+        <section class="countdown" aria-label="New Year 2027">
+            <p class="welcome">WELCOME</p>
+            <h1>2027</h1>
+        </section>
 
-        <p class="typed" id="typed"></p>
+        <p class="message" id="message"></p>
 
-        <button id="btn">শুভ নববর্ষ 🎆</button>
+        <button id="celebrate" type="button">
+            Celebrate
+            <span aria-hidden="true">✦</span>
+        </button>
     </main>
 
     <script src="script.js"></script>

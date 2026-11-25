@@ -10,10 +10,10 @@ resize();
 window.addEventListener("resize", resize);
 
 /* মিটমিট করা তারা */
-const stars = Array.from({ length: 120 }, () => ({
+const stars = Array.from({ length: 140 }, () => ({
   x: Math.random() * window.innerWidth,
   y: Math.random() * window.innerHeight,
-  r: Math.random() * 1.6 + 0.3,
+  r: Math.random() * 1.8 + 0.4,
   t: Math.random() * Math.PI * 2
 }));
 
@@ -22,29 +22,30 @@ let confetti = [];
 
 function firework(x, y) {
   const hue = Math.random() * 360;
-  for (let i = 0; i < 70; i++) {
-    const a = (Math.PI * 2 * i) / 70;
-    const sp = Math.random() * 4 + 1;
+  for (let i = 0; i < 95; i++) {
+    const a = (Math.PI * 2 * i) / 95;
+    const sp = Math.random() * 5 + 1.4;
     sparks.push({
       x, y,
       vx: Math.cos(a) * sp,
       vy: Math.sin(a) * sp,
-      life: 90,
-      color: `hsl(${hue + Math.random() * 40}, 100%, 60%)`
+      r: Math.random() * 2.2 + 2,
+      life: 100,
+      color: `hsl(${hue + Math.random() * 45}, 100%, 62%)`
     });
   }
 }
 
 function rain() {
   const colors = ["#ffd54a", "#ff8a3d", "#ff4d8d", "#6ee7ff", "#a78bfa"];
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 100; i++) {
     confetti.push({
       x: Math.random() * W,
-      y: -20 - Math.random() * 200,
-      w: Math.random() * 8 + 4,
-      h: Math.random() * 12 + 6,
-      vy: Math.random() * 3 + 2,
-      vx: Math.random() * 2 - 1,
+      y: -20 - Math.random() * 220,
+      w: Math.random() * 9 + 5,
+      h: Math.random() * 13 + 7,
+      vy: Math.random() * 3.4 + 2.2,
+      vx: Math.random() * 2.4 - 1.2,
       rot: Math.random() * 6,
       color: colors[Math.floor(Math.random() * colors.length)]
     });
@@ -52,11 +53,10 @@ function rain() {
 }
 
 function draw() {
-  ctx.fillStyle = "rgba(9, 8, 24, 0.25)";
-  ctx.fillRect(0, 0, W, H);
+  ctx.clearRect(0, 0, W, H);
 
   stars.forEach(s => {
-    s.t += 0.03;
+    s.t += 0.045;
     ctx.globalAlpha = 0.5 + Math.sin(s.t) * 0.5;
     ctx.fillStyle = "#fff";
     ctx.beginPath();
@@ -71,17 +71,19 @@ function draw() {
     p.y += p.vy;
     p.vy += 0.04;
     p.life--;
+    ctx.globalAlpha = Math.max(0, p.life / 100);
     ctx.fillStyle = p.color;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
     ctx.fill();
   });
+  ctx.globalAlpha = 1;
 
   confetti = confetti.filter(c => c.y < H + 30);
   confetti.forEach(c => {
     c.y += c.vy;
     c.x += c.vx;
-    c.rot += 0.1;
+    c.rot += 0.12;
     ctx.save();
     ctx.translate(c.x, c.y);
     ctx.rotate(c.rot);
@@ -94,8 +96,10 @@ function draw() {
 }
 draw();
 
-/* নিজে নিজে মাঝে মাঝে আতশবাজি */
-setInterval(() => firework(Math.random() * W, Math.random() * H * 0.5), 2500);
+/* শুরুতেই ও প্রতি ১.৮ সেকেন্ডে আতশবাজি */
+setTimeout(() => firework(W * 0.25, H * 0.28), 300);
+setTimeout(() => firework(W * 0.75, H * 0.28), 750);
+setInterval(() => firework(Math.random() * W, Math.random() * H * 0.5), 1800);
 
 /* লেখা একটা একটা করে টাইপ হবে */
 const text = "নতুন বছর, নতুন স্বপ্ন। ২০২৭ তোমার জীবনে নিয়ে আসুক সুখ, শান্তি আর অনেক সাফল্য।";
@@ -107,32 +111,13 @@ function type() {
     setTimeout(type, 70);
   }
 }
-setTimeout(type, 2000);
-
-/* 1 January 2027-এর countdown */
-const target = new Date("January 1, 2027 00:00:00").getTime();
-const pad = n => String(n).padStart(2, "0");
-
-function tick() {
-  const diff = target - Date.now();
-  if (diff <= 0) {
-    document.getElementById("countdown").innerHTML =
-      "<h2>🎉 Happy New Year 2027! 🎉</h2>";
-    return;
-  }
-  document.getElementById("d").textContent = pad(Math.floor(diff / 86400000));
-  document.getElementById("h").textContent = pad(Math.floor(diff / 3600000) % 24);
-  document.getElementById("m").textContent = pad(Math.floor(diff / 60000) % 60);
-  document.getElementById("s").textContent = pad(Math.floor(diff / 1000) % 60);
-}
-tick();
-setInterval(tick, 1000);
+setTimeout(type, 900);
 
 /* button চাপলে আতশবাজি + confetti */
 document.getElementById("btn").addEventListener("click", () => {
   rain();
-  for (let k = 0; k < 6; k++) {
-    setTimeout(() => firework(Math.random() * W, Math.random() * H * 0.6), k * 250);
+  for (let k = 0; k < 8; k++) {
+    setTimeout(() => firework(Math.random() * W, Math.random() * H * 0.6), k * 180);
   }
 });
 
